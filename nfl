@@ -82,10 +82,11 @@ class notepad:
                 print(test)
             for i in test.get(0):
                     print(str(i)+" "+self.tasks[str(i)]['title'])
+
             while(True):
                 cursor = input()                           # dać wyjątek by nie mozna bylo dac cos innego niz liczbę
-                cursor = int(cursor) 
-                if not cursor or int(cursor) == 0:
+
+                if cursor == '':
                     return
                 if test.get(int(cursor)) != None:
                     print(test.get(int(cursor)))
