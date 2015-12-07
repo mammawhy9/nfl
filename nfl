@@ -41,12 +41,12 @@ class notepad:
             maks = max(tab)
           #  print(int(len(tab)/10+1))
             test = {}
-            print(tab[5])
             brak=[]
             wystapil_brak =0
             cursor = 0
             for j in range(int(len(tab)/10)+1):
                 strona=[]
+                print(j)
 
                 limit_l = j*10 + wystapil_brak
                 if len(tab) <= (j+1)*10:
@@ -82,15 +82,17 @@ class notepad:
                 print(test)
             for i in test.get(0):
                     print(str(i)+" "+self.tasks[str(i)]['title'])
-            cursor = input()
-            if not cursor:
-                return
-            if test.get(int(cursor)) != None:
-                print(test.get(int(cursor)))
-                for i in test.get(int(cursor)):
-                    print(str(i)+" "+self.tasks[str(i)]['title'])
-            else:
-                return
+            while(True):
+                cursor = input()                           # dać wyjątek by nie mozna bylo dac cos innego niz liczbę
+                cursor = int(cursor) 
+                if not cursor or int(cursor) == 0:
+                    return
+                if test.get(int(cursor)) != None:
+                    print(test.get(int(cursor)))
+                    for i in test.get(int(cursor)):
+                        print(str(i)+" "+self.tasks[str(i)]['title'])
+                else:
+                    print("Nie ma takiej strony!")
 
    #     for i in range(maks+1):
      #       if str(i) in self.tasks:
