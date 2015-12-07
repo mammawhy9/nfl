@@ -1,0 +1,165 @@
+#!/bin/python3
+
+import sys
+import json
+import os
+import getpass
+import collections
+
+
+class User:
+    name = ''
+
+    def __init__(self):
+        self.getName()
+
+    def getName(self):
+        self.name = getpass.getuser()
+
+class notepad:
+    nr = 0
+    tasks = {}
+
+    name = ''
+
+    def __init__(self, name):
+        self.name = name
+
+    def show(self, what):
+        if what == "tasks":
+            tab = []
+            self.readTasksFromFile()
+            lista = collections.OrderedDict(sorted(self.tasks.items()))
+            for i in lista.keys():
+                tab.append(i)
+
+            for i in range(len(tab)):
+                tab[i] = int(tab[i])
+            tab = sorted(tab)
+            print(tab)
+            maks = max(tab)
+          #  print(int(len(tab)/10+1))
+            test = {}
+            print(tab[5])
+            brak=[]
+            wystapil_brak =0
+            for j in range(int(len(tab)/10)+1):
+                strona=[]
+
+                limit_l = j*10 + wystapil_brak
+                if len(tab) <= (j+1)*10:
+                    limit = len(tab) + wystapil_brak
+                else:
+                    limit = (j+1)*10 + wystapil_brak
+                print("Limit: "+str(limit)+" "+str(j*10))
+                if len(brak) > 0:
+                    wystapil_brak+=1
+                    limit_l +=1
+                    limit +=1
+                brak=[]
+                for i in range(limit_l,limit):
+                    if not i in tab:
+                        brak.append(i)
+
+                print("braL"+str(brak))
+                if len(brak) > 0:
+                    while(True):
+                        limit = limit + 1
+                        if limit in tab:
+                            break
+                        else:
+                            limit +=1
+
+
+
+                print("limit_l")
+                print(limit_l)
+                print("limit")
+                print(limit)
+                for i in range(limit_l,limit):
+                    print(i)
+                    if i in tab:
+                        strona.append(i)
+
+
+                    print(strona)
+
+                test.update({j:strona})
+
+                print(test)
+        ##
+        ##        Dorobić system przelaczania sie miedzy stronami i wyswietlania wybranych stron
+        ##
+   #     for i in range(maks+1):
+     #       if str(i) in self.tasks:
+    #            print(str(i)+" "+self.tasks[str(i)]['title'])
+
+    def add(self, tytul):
+        self.readTasksFromFile()
+        lista = collections.OrderedDict(sorted(self.tasks.items()))
+        tab = []
+        liczba_pusta = 0
+        if self.tasks != None:
+            for i in lista.keys():
+                tab.append(i)
+            for i in range(len(tab)):
+                tab[i] = int(tab[i])
+            tab=sorted(tab)
+            for i in range(len(tab)):
+                if int(tab[i]) != i:
+                    liczba_pusta = i
+                    break
+                else:
+                    liczba_pusta = None
+
+        self.writeTaskToFile(tytul,liczba_pusta)
+    def rm(self, number):
+        self.readTasksFromFile()
+
+        if self.tasks[number] != None:
+            del self.tasks[number]
+        print(self.tasks)
+        self.writeTaskToFile()
+
+    def readTasksFromFile(self):
+        notatniczek = open(os.path.join("/home/" + jarvis.user.name + "/.taskList"), 'r+')
+        lista = notatniczek.read()
+        if lista != '':
+            self.tasks = json.loads(lista)
+
+
+    def writeTaskToFile(self, title=None, number = None):
+        notatniczek = open(os.path.join("/home/" + jarvis.user.name + "/.taskList"), 'w')
+        if number != None:
+            numberToWrite = number
+        else:
+            numberToWrite = len(self.tasks)
+
+        if title != None :
+            self.tasks[int(numberToWrite)] = {'title': title}
+        notatniczek.write(json.dumps(self.tasks))
+
+
+
+class task:
+    title = ""
+
+
+class janitor:
+    command = ''
+    destiny = ''
+
+    user = User()
+    notepadInternal = notepad(user.name)
+
+    def __init__(self):
+        user = User()
+        self.notepadInternal = notepad(user.name)
+
+    def readCommand(self):
+        comment = ''
+        eval("self.notepadInternal." + sys.argv[1] + "('" + ''.join(str((sys.argv[2:])[0])) + "')")
+
+
+jarvis = janitor()
+jarvis.readCommand()
