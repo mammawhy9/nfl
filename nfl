@@ -25,7 +25,8 @@ class notepad:
     def __init__(self, name):
         self.name = name
 
-    def show(self, what):
+    def show(self, what =[]):
+        print(what)
         if what == "tasks":
             tab = []
             self.readTasksFromFile()
@@ -43,6 +44,7 @@ class notepad:
             print(tab[5])
             brak=[]
             wystapil_brak =0
+            cursor = 0
             for j in range(int(len(tab)/10)+1):
                 strona=[]
 
@@ -61,7 +63,6 @@ class notepad:
                     if not i in tab:
                         brak.append(i)
 
-                print("braL"+str(brak))
                 if len(brak) > 0:
                     while(True):
                         limit = limit + 1
@@ -70,26 +71,27 @@ class notepad:
                         else:
                             limit +=1
 
-
-
-                print("limit_l")
-                print(limit_l)
-                print("limit")
-                print(limit)
                 for i in range(limit_l,limit):
-                    print(i)
                     if i in tab:
                         strona.append(i)
 
 
-                    print(strona)
 
                 test.update({j:strona})
 
                 print(test)
-        ##
-        ##        Dorobić system przelaczania sie miedzy stronami i wyswietlania wybranych stron
-        ##
+            for i in test.get(0):
+                    print(str(i)+" "+self.tasks[str(i)]['title'])
+            cursor = input()
+            if not cursor:
+                return
+            if test.get(int(cursor)) != None:
+                print(test.get(int(cursor)))
+                for i in test.get(int(cursor)):
+                    print(str(i)+" "+self.tasks[str(i)]['title'])
+            else:
+                return
+
    #     for i in range(maks+1):
      #       if str(i) in self.tasks:
     #            print(str(i)+" "+self.tasks[str(i)]['title'])
@@ -158,8 +160,13 @@ class janitor:
 
     def readCommand(self):
         comment = ''
-        eval("self.notepadInternal." + sys.argv[1] + "('" + ''.join(str((sys.argv[2:])[0])) + "')")
-
+        command = "self.notepadInternal." + sys.argv[1] + "('" + sys.argv[2]
+        if len(sys.argv) > 3:
+            for i in range(3,len(sys.argv)):
+                command+=' '+sys.argv[i]
+        command +="')"
+        print(command)
+        eval(command)
 
 jarvis = janitor()
 jarvis.readCommand()
