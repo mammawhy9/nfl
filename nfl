@@ -39,7 +39,6 @@ class notepad:
             tab = sorted(tab)
             print(tab)
             maks = max(tab)
-          #  print(int(len(tab)/10+1))
             test = {}
             brak=[]
             wystapil_brak =0
@@ -143,7 +142,8 @@ class notepad:
         if title != None :
             self.tasks[int(numberToWrite)] = {'title': title}
         notatniczek.write(json.dumps(self.tasks))
-
+    def checkIfMissing():
+        return 0
 
 
 class task:
