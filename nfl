@@ -6,7 +6,15 @@ import os
 import getpass
 import collections
 
+def findMissing(tab,limit_l,limit_p):
+    brak=[]
+    for i in range(limit_l,limit_p):
+        if not i in tab:
+            brak.append(i)
+            continue
+    return brak
 
+# TODO zrobić mapę klas
 class User:
     name = ''
 
@@ -16,6 +24,7 @@ class User:
     def getName(self):
         self.name = getpass.getuser()
 
+# TODO Ogarnąć nazwy zmiennych, wydzielić więcej funkcji
 class notepad:
     nr = 0
     tasks = {}
@@ -57,10 +66,8 @@ class notepad:
                     wystapil_brak+=1
                     limit_l +=1
                     limit +=1
-                brak=[]
-                for i in range(limit_l,limit):
-                    if not i in tab:
-                        brak.append(i)
+
+                brak = findMissing(tab,limit_l,limit)
 
                 if len(brak) > 0:
                     while(True):
@@ -93,6 +100,8 @@ class notepad:
                         print(str(i)+" "+self.tasks[str(i)]['title'])
                 else:
                     print("Nie ma takiej strony!")
+
+
 
    #     for i in range(maks+1):
      #       if str(i) in self.tasks:
@@ -170,6 +179,7 @@ class janitor:
         command +="')"
         print(command)
         eval(command)
+
 
 jarvis = janitor()
 jarvis.readCommand()
